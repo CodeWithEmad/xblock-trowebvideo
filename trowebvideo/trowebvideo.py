@@ -75,6 +75,27 @@ class TrowebVideoXBlock(XBlock):
 
         return hostname, response["html"]
 
+    def studio_view(self, context):
+        """
+        Create a fragment used to display the edit view in the Studio.
+        """
+        html_str = pkg_resources.resource_string(__name__, "static/html/simplevideo_edit.html")
+        href = self.href or ''
+        frag = Fragment(html_str.format(self=self, href=href, maxwidth=self.maxwidth, maxheight=self.maxheight))
+        frag.add_javascript(self.resource_string("static/js/src/trowebvideo_edit.js"))
+        frag.initialize_js("TrowebVideoEditBlock")
+        return frag
+
+    @XBlock.json_handler
+    def studio_submit(self, data, suffix=''):
+        """
+        Called when submitting the form in Studio.
+        """
+        self.href = data.get('href')
+        self.maxwidth = data.get('maxwidth')
+        self.maxheight = data.get('maxheight')
+
+        return {'result': 'success'}
 
     # workbench while developing your XBlock.
     @staticmethod
