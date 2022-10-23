@@ -75,15 +75,6 @@ class TrowebVideoXBlock(XBlock):
 
         return hostname, response["html"]
 
-    @XBlock.json_handler
-    def mark_as_watched(self, data, suffix=""):
-        """
-        Called upon completion of the video.
-        """
-        if data.get("watched"):
-            self.watched_count += 1
-
-        return {"watched_count": self.watched_count}
 
     # workbench while developing your XBlock.
     @staticmethod
