@@ -1,0 +1,9 @@
+/* CSS for TrowebVideoXBlock */
+
+.trowebvideo_block {
+  margin: 20px 0;
+}
+
+.trowebvideo_block p {
+  cursor: pointer;
+}
