@@ -39,9 +39,19 @@ class TrowebVideoXBlock(XBlock):
         # Load the HTML fragment from within the package and fill in the template
         html = self.resource_string("static/html/trowebvideo.html")
         frag = Fragment(html.format(self=self, embed_code=embed_code))
+
+        # Load CSS
         frag.add_css(self.resource_string("static/css/trowebvideo.css"))
-        frag.add_javascript(self.resource_string("static/js/src/trowebvideo.js"))
-        frag.initialize_js("TrowebVideoXBlock")
+
+        # Load JS
+        if provider == 'vimeo.com':
+            # Load the Froogaloop library from vimeo CDN.
+            frag.add_javascript_url(
+                "//cdn.jsdelivr.net/npm/vimeo-froogaloop2@0.1.1/javascript/froogaloop.js"
+                )
+            frag.add_javascript(self.resource_string("static/js/src/trowebvideo.js"))
+            frag.initialize_js("TrowebVideoXBlock")
+
         return frag
 
     def get_embed_code_for_url(self, url):
@@ -79,9 +89,11 @@ class TrowebVideoXBlock(XBlock):
         """
         Create a fragment used to display the edit view in the Studio.
         """
-        html_str = pkg_resources.resource_string(__name__, "static/html/trowebvideo_edit.html")
+        html = self.resource_string("static/html/trowebvideo_edit.html")
         href = self.href or ''
-        frag = Fragment(html_str.format(self=self, href=href, maxwidth=self.maxwidth, maxheight=self.maxheight))
+        frag = Fragment(html.format(self=self, href=href, maxwidth=self.maxwidth, maxheight=self.maxheight))
+
+        # Load JS
         frag.add_javascript(self.resource_string("static/js/src/trowebvideo_edit.js"))
         frag.initialize_js("TrowebVideoEditBlock")
         return frag
