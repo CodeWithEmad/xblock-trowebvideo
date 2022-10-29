@@ -79,7 +79,7 @@ class TrowebVideoXBlock(XBlock):
         """
         Create a fragment used to display the edit view in the Studio.
         """
-        html_str = pkg_resources.resource_string(__name__, "static/html/simplevideo_edit.html")
+        html_str = pkg_resources.resource_string(__name__, "static/html/trowebvideo_edit.html")
         href = self.href or ''
         frag = Fragment(html_str.format(self=self, href=href, maxwidth=self.maxwidth, maxheight=self.maxheight))
         frag.add_javascript(self.resource_string("static/js/src/trowebvideo_edit.js"))
